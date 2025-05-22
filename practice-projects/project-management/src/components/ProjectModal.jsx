@@ -6,14 +6,12 @@ export default function ProjectModal({ ref, func }) {
     }
 
     function handleSubmit() {
-        event.preventDefault
         func(project);
-        ref.current.close();
     }
 
   return (
     <>
-      <dialog ref={ref} open className="ml-48 bg-transparent">
+      <div ref={ref} open className="bg-transparent mt-8">
         <form>
           <label>Title</label>
           <input
@@ -22,7 +20,7 @@ export default function ProjectModal({ ref, func }) {
             onChange={(e) => (project.title = e.target.value)}
           />
           <label>Description</label>
-          <input
+          <textarea
             type="text"
             className="border-2 border-stone-700 rounded-md p-2 w-full mb-4"
             onChange={(e) => (project.description = e.target.value)}
@@ -36,7 +34,7 @@ export default function ProjectModal({ ref, func }) {
           <button type="button" className="px-4">Cancel</button>
           <button type="button" className="px-5 py-2 rounded-md bg-stone-800 text-stone-50 hover:bg-stone-950" onClick={handleSubmit}>Save</button>
         </form>
-      </dialog>
+      </div>
     </>
   );
 }

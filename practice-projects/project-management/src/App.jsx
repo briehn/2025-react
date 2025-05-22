@@ -1,30 +1,50 @@
-import SideBar from './components/SideBar.jsx';
-import ProjectView from './components/ProjectView.jsx';
-import ProjectModal from './components/ProjectModal.jsx';
+import SideBar from "./components/SideBar.jsx";
+import DefaultScreen from "./components/DefaultScreen.jsx";
+import ProjectModal from "./components/ProjectModal.jsx";
+import ProjectView from "./components/ProjectView.jsx";
 
-import {useRef, useState} from 'react';
+import { useRef, useState } from "react";
 
 function App() {
-  const [creatingProject, setCreatingProject] = useState(false);
+  /* view states
+    default
+    create
+    view
+  */
+
+  const [viewState, setViewState] = useState("default");
   const [projects, setAddProjects] = useState([]);
   const projectModal = useRef();
+  const currentProject = useRef();
 
   function openModal() {
-    setCreatingProject(true);
+    setViewState("create");
   }
 
   function addProject(project) {
     setAddProjects((prevProjects) => [project, ...prevProjects]);
-    setCreatingProject(false);
+    setViewState("default");
+  }
+
+  function viewProject(project) {
+    currentProject.current = project;
+    setViewState("view");
   }
 
   return (
     <>
       <main className="h-screen my-8 flex gap-8">
-        <SideBar func={openModal} projects={projects}/>
+        <SideBar
+          func={openModal}
+          projects={projects}
+          viewProject={viewProject}
+        />
 
-        {creatingProject && <ProjectModal ref={projectModal} func={addProject} />}
-        {!creatingProject && <ProjectView func={openModal} />}
+        {viewState === "create" && (
+          <ProjectModal ref={projectModal} func={addProject} />
+        )}
+        {viewState === "default" && <DefaultScreen func={openModal} />}
+        {viewState === "view" && <ProjectView project={currentProject} />}
       </main>
     </>
   );
