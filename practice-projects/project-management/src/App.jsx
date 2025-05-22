@@ -15,7 +15,9 @@ function App() {
   const [viewState, setViewState] = useState("default");
   const [projects, setAddProjects] = useState([]);
   const projectModal = useRef();
-  const currentProject = useRef();
+  const [currentProject, setCurrentProject] = useState({});
+
+  console.log('test');
 
   function openModal() {
     setViewState("create");
@@ -27,7 +29,7 @@ function App() {
   }
 
   function viewProject(project) {
-    currentProject.current = project;
+    setCurrentProject(project);
     setViewState("view");
   }
 
