@@ -17,7 +17,7 @@ function App() {
   const projectModal = useRef();
   const [currentProject, setCurrentProject] = useState({});
 
-  console.log('test');
+  console.log("test");
 
   function openModal() {
     setViewState("create");
@@ -33,6 +33,13 @@ function App() {
     setViewState("view");
   }
 
+  function deleteProject(projectToDelete) {
+    setAddProjects((prevProjects) =>
+      prevProjects.filter((project) => project !== projectToDelete)
+    );
+    setViewState("default");
+  }
+
   return (
     <>
       <main className="h-screen my-8 flex gap-8">
@@ -43,10 +50,10 @@ function App() {
         />
 
         {viewState === "create" && (
-          <ProjectModal ref={projectModal} func={addProject} />
+          <ProjectModal ref={projectModal} func={addProject} setViewState={setViewState} />
         )}
         {viewState === "default" && <DefaultScreen func={openModal} />}
-        {viewState === "view" && <ProjectView project={currentProject} />}
+        {viewState === "view" && <ProjectView project={currentProject} onDelete={deleteProject}/>}
       </main>
     </>
   );
