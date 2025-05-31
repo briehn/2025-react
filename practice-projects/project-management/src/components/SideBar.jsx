@@ -14,7 +14,7 @@ export default function SideBar({ func, projects, viewProject }) {
       </button>
     );
   });
-
+//test
   return (
     <>
       <div className="pl-6 pr-12 bg-stone-900 rounded-md w-72 pt-4">
