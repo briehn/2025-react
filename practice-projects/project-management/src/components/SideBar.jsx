@@ -14,10 +14,10 @@ export default function SideBar({ func, projects, viewProject }) {
       </button>
     );
   });
-//test
+
   return (
     <>
-      <div className="pl-6 pr-12 bg-stone-900 rounded-md w-72 pt-4">
+      <aside className="pl-6 pr-12 bg-stone-900 rounded-md w-72 pt-4">
         <h1 className="text-white py-5 text-l font-bold">YOUR PROJECTS</h1>
           <button
             onClick={func}
@@ -28,7 +28,7 @@ export default function SideBar({ func, projects, viewProject }) {
         {projects.length != 0 && (
           <div className=" flex flex-col gap-2 mt-4 items-start">{projectList}</div>
         )}
-      </div>
+      </aside>
     </>
   );
 }

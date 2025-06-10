@@ -12,32 +12,45 @@ function App() {
     view
   */
 
-  const [viewState, setViewState] = useState("default");
-  const [projects, setAddProjects] = useState([]);
   const projectModal = useRef();
-  const [currentProject, setCurrentProject] = useState({});
 
-  console.log("test");
+  const [projectsState, setProjectsState] = useState({
+    projects: [],
+    viewState: "default",
+    currentProject: {},
+  })
 
   function openModal() {
-    setViewState("create");
+    setProjectsState((prevState) => ({
+      ...prevState,
+      viewState: "create",
+    }));
   }
 
   function addProject(project) {
-    setAddProjects((prevProjects) => [project, ...prevProjects]);
-    setViewState("default");
+    setProjectsState((prevState) => ({
+      ...prevState,
+      projects: [project, ...prevState.projects],
+      viewState: "default",
+    }));
   }
 
   function viewProject(project) {
-    setCurrentProject(project);
-    setViewState("view");
+    setProjectsState((prevState) => ({
+      ...prevState,
+      currentProject: project,
+      viewState: "view",
+    }));
   }
 
   function deleteProject(projectToDelete) {
-    setAddProjects((prevProjects) =>
-      prevProjects.filter((project) => project !== projectToDelete)
-    );
-    setViewState("default");
+    setProjectsState((prevState) => ({
+      ...prevState,
+      projects: prevState.projects.filter(
+        (project) => project !== projectToDelete
+      ),
+      viewState: "default",
+    }));
   }
 
   return (
@@ -45,15 +58,15 @@ function App() {
       <main className="h-screen my-8 flex gap-8">
         <SideBar
           func={openModal}
-          projects={projects}
+          projects={projectsState.projects}
           viewProject={viewProject}
         />
 
-        {viewState === "create" && (
-          <ProjectModal ref={projectModal} func={addProject} setViewState={setViewState} />
+        {projectsState.viewState === "create" && (
+          <ProjectModal ref={projectModal} func={addProject} setViewState={setProjectsState} />
         )}
-        {viewState === "default" && <DefaultScreen func={openModal} />}
-        {viewState === "view" && <ProjectView project={currentProject} onDelete={deleteProject}/>}
+        {projectsState.viewState === "default" && <DefaultScreen func={openModal} />}
+        {projectsState.viewState === "view" && <ProjectView project={projectsState.currentProject} onDelete={deleteProject}/>}
       </main>
     </>
   );
